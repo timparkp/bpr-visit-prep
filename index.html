@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPR Visit Prep — Tim & Joanne</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:#FAFAF8;color:#1A1916;line-height:1.6;}
+
+/* LIGHTBOX */
+.lightbox{position:fixed;inset:0;background:rgba(15,13,11,0.92);display:flex;align-items:center;justify-content:center;z-index:1000;opacity:0;pointer-events:none;transition:opacity 0.2s ease;}
+.lightbox.open{opacity:1;pointer-events:all;}
+.lightbox-inner{position:relative;max-width:90vw;max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:1rem;}
+.lightbox-img{max-width:90vw;max-height:80vh;object-fit:contain;border-radius:12px;display:block;}
+.lightbox-caption{color:rgba(240,236,228,0.7);font-size:0.85rem;text-align:center;}
+.lightbox-caption strong{color:#F0ECE4;}
+.lightbox-close{position:absolute;top:-2.5rem;right:0;background:none;border:none;color:rgba(240,236,228,0.6);font-size:1.5rem;cursor:pointer;line-height:1;padding:0.25rem;}
+.lightbox-close:hover{color:#F0ECE4;}
+
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:4rem 3rem 3rem;border-bottom:1px solid #E8E4DE;}
+.hero-eyebrow{font-size:0.72rem;letter-spacing:0.28em;color:#A0613A;text-transform:uppercase;margin-bottom:1.5rem;font-weight:500;}
+.hero-title{font-family:'Playfair Display',serif;font-size:clamp(3.2rem,8vw,6.5rem);line-height:1.0;color:#1A1916;margin-bottom:0.5rem;max-width:700px;}
+.hero-title span{color:#A0613A;}
+.hero-for{font-family:'Playfair Display',serif;font-size:1.1rem;color:#9A9892;font-style:italic;margin-bottom:2rem;}
+.hero-sub{font-size:1rem;color:#7A7570;max-width:480px;margin-bottom:2.5rem;font-weight:300;}
+.hero-meta{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;}
+.hero-chip{display:inline-flex;align-items:center;gap:0.5rem;background:#fff;border:1px solid #D8D4CE;border-radius:100px;padding:0.4rem 1rem;font-size:0.82rem;color:#5C5A55;}
+.hero-chip strong{color:#1A1916;font-weight:500;}
+.toc{display:flex;flex-direction:column;gap:0;border-top:1px solid #E0DCD6;margin-top:3rem;max-width:400px;}
+.toc-item{display:flex;align-items:center;gap:1rem;padding:0.65rem 0;border-bottom:1px solid #E0DCD6;cursor:pointer;}
+.toc-item:hover .toc-label{color:#A0613A;}
+.toc-num{font-family:'Playfair Display',serif;font-size:0.85rem;color:#A0613A;font-weight:700;min-width:1.8rem;}
+.toc-label{font-size:0.92rem;color:#5C5A55;transition:color 0.15s;}
+
+.section{padding:4rem 3rem;border-bottom:1px solid #E8E4DE;}
+.section:last-child{border-bottom:none;}
+.section-eyebrow{font-size:0.72rem;letter-spacing:0.28em;color:#A0613A;text-transform:uppercase;font-weight:500;margin-bottom:0.6rem;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3rem);color:#1A1916;line-height:1.1;margin-bottom:0.4rem;}
+.section-sub{font-size:0.9rem;color:#9A9892;font-style:italic;margin-bottom:2.5rem;font-family:'Playfair Display',serif;}
+.hairline{border:none;border-top:1px solid #E0DCD6;margin:0 0 2rem;}
+
+/* INSPO */
+.inspo-category{margin-bottom:2.5rem;}
+.inspo-category-label{font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:#A0613A;font-weight:500;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:1px solid #E8E4DE;}
+.inspo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:0.75rem;}
+.inspo-card{background:#fff;border:1px solid #E0DCD6;border-radius:16px;overflow:hidden;}
+.inspo-img-wrap{position:relative;overflow:hidden;cursor:zoom-in;}
+.inspo-img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;transition:transform 0.25s ease;}
+.inspo-img-wrap:hover .inspo-img{transform:scale(1.03);}
+.inspo-img-wrap::after{content:'⊕';position:absolute;bottom:0.6rem;right:0.7rem;font-size:1.1rem;color:#fff;opacity:0;transition:opacity 0.2s;pointer-events:none;}
+.inspo-img-wrap:hover::after{opacity:0.85;}
+.inspo-img-placeholder{width:100%;aspect-ratio:4/3;background:#F5F2EE;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.5rem;}
+.inspo-img-placeholder svg{opacity:0.3;}
+.inspo-img-placeholder span{font-size:0.72rem;color:#B0AAA2;letter-spacing:0.1em;text-transform:uppercase;}
+.inspo-caption{padding:0.75rem 1rem 1rem;}
+.inspo-caption-title{font-size:0.88rem;font-weight:500;color:#1A1916;margin-bottom:0.2rem;}
+.inspo-caption-note{font-size:0.78rem;color:#9A9892;line-height:1.4;}
+.inspo-tag{display:inline-block;margin-top:0.4rem;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:#A0613A;background:#FBF5F0;border:1px solid #E8D5C4;border-radius:100px;padding:0.15rem 0.6rem;}
+
+/* ORDER */
+.order-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem;}
+.order-card{background:#fff;border:1px solid #E0DCD6;border-radius:16px;padding:1.25rem 1.25rem 1.5rem;}
+.order-card-label{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;color:#A0613A;font-weight:500;margin-bottom:0.75rem;}
+.order-card ul{list-style:none;display:flex;flex-direction:column;gap:0.42rem;}
+.order-card li{font-size:0.88rem;color:#5C5A55;display:flex;justify-content:space-between;gap:0.5rem;}
+.order-card li span{font-variant-numeric:tabular-nums;color:#9A9892;white-space:nowrap;}
+.order-note{margin-top:1.25rem;font-size:0.82rem;color:#A0613A;font-style:italic;}
+
+/* COST */
+.cost-hero{display:grid;grid-template-columns:1fr 1px 1fr;background:#fff;border:1px solid #E0DCD6;border-radius:16px;overflow:hidden;margin-bottom:2rem;}
+.cost-figure{padding:2rem 2rem 1.75rem;}
+.cost-figure-label{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;color:#9A9892;margin-bottom:0.5rem;}
+.cost-figure-amount{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4rem);line-height:1;color:#1A1916;margin-bottom:0.25rem;}
+.cost-figure-amount.high{color:#A0613A;}
+.cost-figure-note{font-size:0.8rem;color:#9A9892;}
+.cost-divider{background:#E0DCD6;}
+.cost-col-heads{display:grid;grid-template-columns:1fr auto auto;gap:1rem;padding:0.4rem 1.25rem;font-size:0.7rem;letter-spacing:0.2em;color:#9A9892;text-transform:uppercase;margin-bottom:0.25rem;}
+.cost-rows{background:#fff;border:1px solid #E0DCD6;border-radius:16px;overflow:hidden;}
+.cost-row{display:grid;grid-template-columns:1fr auto auto;gap:1rem;padding:0.65rem 1.25rem;border-bottom:1px solid #F0EDE8;font-size:0.88rem;align-items:center;}
+.cost-row:last-child{border-bottom:none;}
+.cost-row:nth-child(even){background:#FAFAF8;}
+.cost-row-label{color:#5C5A55;}
+.cost-row-lo{color:#7A7570;text-align:right;font-variant-numeric:tabular-nums;}
+.cost-row-hi{color:#A0613A;text-align:right;font-variant-numeric:tabular-nums;font-weight:500;}
+
+/* QUESTIONS */
+.q-list{display:flex;flex-direction:column;gap:0;}
+.q-item{display:grid;grid-template-columns:1fr 1px 1fr;border-bottom:1px solid #E0DCD6;background:#fff;overflow:hidden;}
+.q-item:first-child{border-radius:16px 16px 0 0;}
+.q-item:last-child{border-radius:0 0 16px 16px;border-bottom:none;}
+.q-item-main{padding:1.1rem 1.25rem;}
+.q-cat{font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:#A0613A;font-weight:500;margin-bottom:0.35rem;}
+.q-text{font-size:0.95rem;color:#1A1916;line-height:1.5;}
+.q-divider{background:#E0DCD6;}
+.q-why{padding:1.1rem 1.25rem;background:#FAFAF8;}
+.q-why-label{font-size:0.68rem;letter-spacing:0.2em;text-transform:uppercase;color:#9A9892;font-style:italic;margin-bottom:0.35rem;}
+.q-why-text{font-size:0.85rem;color:#7A7570;line-height:1.5;}
+
+/* WATCH-OUTS */
+.wo-list{display:flex;flex-direction:column;gap:1rem;}
+.wo-item{background:#fff;border:1px solid #E0DCD6;border-left:3px solid #A0613A;border-radius:0 16px 16px 0;padding:1.25rem 1.5rem;}
+.wo-title{font-family:'Playfair Display',serif;font-size:1.05rem;color:#1A1916;margin-bottom:0.5rem;}
+.wo-body{font-size:0.9rem;color:#5C5A55;line-height:1.6;}
+
+/* SHOWROOM */
+.showroom-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;}
+.showroom-card{background:#fff;border:1px solid #E0DCD6;border-radius:16px;padding:1.25rem 1.25rem 1.5rem;}
+.showroom-card-title{font-family:'Playfair Display',serif;font-size:1rem;color:#1A1916;margin-bottom:0.5rem;}
+.showroom-card-body{font-size:0.88rem;color:#5C5A55;line-height:1.6;}
+
+/* ACTION */
+.action-cols{display:grid;grid-template-columns:1fr 1px 1fr;background:#fff;border:1px solid #E0DCD6;border-radius:16px;overflow:hidden;}
+.action-col{padding:1.75rem 1.5rem;}
+.action-col-right{background:#FAFAF8;}
+.action-col-head{font-size:0.7rem;letter-spacing:0.22em;text-transform:uppercase;font-weight:500;margin-bottom:1.25rem;}
+.action-col-head.left{color:#A0613A;}
+.action-col-head.right{color:#7A7570;}
+.action-divider{background:#E0DCD6;}
+.before-list,.after-list{display:flex;flex-direction:column;gap:0;}
+.before-item,.after-item{display:flex;gap:1rem;align-items:flex-start;padding:0.75rem 0;border-bottom:1px solid #F0EDE8;}
+.before-item:last-child,.after-item:last-child{border-bottom:none;}
+.before-num{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#C8A882;min-width:1.2rem;padding-top:0.05rem;}
+.before-text,.after-text{font-size:0.9rem;color:#5C5A55;line-height:1.5;}
+.after-dash{color:#A0613A;font-weight:500;padding-top:0.05rem;}
+
+.footer{padding:2.5rem 3rem;border-top:1px solid #E0DCD6;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:#1A1916;}
+.footer-meta{font-size:0.82rem;color:#9A9892;}
+</style>
+</head>
+<body>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+    <img class="lightbox-img" id="lightbox-img" src="" alt="" />
+    <p class="lightbox-caption" id="lightbox-caption"></p>
+  </div>
+</div>
+
+<section class="hero" id="top">
+  <p class="hero-eyebrow">Showroom Visit Prep Guide</p>
+  <h1 class="hero-title">Broadway<br><span>Party</span><br>Rentals</h1>
+  <p class="hero-for">Prepared for Joanne &amp; Tim</p>
+  <p class="hero-sub">Everything you need to walk into the showroom prepared, ask the right questions, and leave with a real quote.</p>
+  <div class="hero-meta">
+    <span class="hero-chip">&#128197; <strong>June 27, 2026</strong></span>
+    <span class="hero-chip">&#128101; <strong>75 guests</strong></span>
+    <span class="hero-chip">&#128205; <strong>137 Grand St, SoHo</strong></span>
+    <span class="hero-chip">&#128222; <strong>212.269.2666</strong></span>
+  </div>
+  <nav class="toc">
+    <div class="toc-item" onclick="document.getElementById('inspo').scrollIntoView({behavior:'smooth'})"><span class="toc-num">00</span><span class="toc-label">Inspiration</span></div>
+    <div class="toc-item" onclick="document.getElementById('order').scrollIntoView({behavior:'smooth'})"><span class="toc-num">01</span><span class="toc-label">What We Need</span></div>
+    <div class="toc-item" onclick="document.getElementById('cost').scrollIntoView({behavior:'smooth'})"><span class="toc-num">02</span><span class="toc-label">Cost Expectations</span></div>
+    <div class="toc-item" onclick="document.getElementById('questions').scrollIntoView({behavior:'smooth'})"><span class="toc-num">03</span><span class="toc-label">Questions to Ask</span></div>
+    <div class="toc-item" onclick="document.getElementById('watchouts').scrollIntoView({behavior:'smooth'})"><span class="toc-num">04</span><span class="toc-label">Watch-Outs</span></div>
+    <div class="toc-item" onclick="document.getElementById('showroom').scrollIntoView({behavior:'smooth'})"><span class="toc-num">05</span><span class="toc-label">Showroom Experience</span></div>
+    <div class="toc-item" onclick="document.getElementById('action').scrollIntoView({behavior:'smooth'})"><span class="toc-num">06</span><span class="toc-label">Action Plan</span></div>
+  </nav>
+</section>
+
+<!-- 00 INSPIRATION -->
+<section class="section" id="inspo">
+  <p class="section-eyebrow">00 · Inspiration</p>
+  <h2 class="section-title">The Look We're After</h2>
+  <p class="section-sub">Screenshots from BPR's Instagram — tap any photo to enlarge</p>
+  <hr class="hairline">
+
+  <div class="inspo-category">
+    <p class="inspo-category-label">Table Layout — Under Consideration</p>
+    <div class="inspo-grid" style="grid-template-columns:repeat(auto-fill,minmax(320px,1fr));">
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/5qp6ddt.png" alt="Table layout floor plan" data-title="Table layout — confirmed direction" data-note="Tables joined together, 6 per table, one table on each end" style="aspect-ratio:unset;max-height:340px;object-fit:contain;background:#F5F2EE;" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Floor plan — joined tables</p>
+          <p class="inspo-caption-note">6 seats per table, tables connected, one table capping each end. ~12 tables for 75 guests — arrangement still being finalized.</p>
+          <span class="inspo-tag">Under consideration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inspo-category">
+    <p class="inspo-category-label">Reception Table Aesthetics</p>
+    <div class="inspo-grid">
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/5XoSGC2.jpeg" alt="Light airy tablescape" data-title="Light &amp; airy tablescape" data-note="Leading reference — clean linen, minimal setting" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Light &amp; airy tablescape</p>
+          <p class="inspo-caption-note">Close to the tone we're after — clean linen, minimal setting</p>
+          <span class="inspo-tag">Leading reference</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/CZktaoL.jpeg" alt="Light tablescape no 2" data-title="Light tablescape no. 2" data-note="Note linen drape and place setting density at scale" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Light tablescape no. 2</p>
+          <p class="inspo-caption-note">Note linen drape and place setting density at scale</p>
+          <span class="inspo-tag">Leading reference</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/O7QxKLt.jpeg" alt="Wild card tablescape" data-title="Wild card" data-note="Different direction — too much or interesting contrast?" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Wild card</p>
+          <p class="inspo-caption-note">Different direction — worth discussing: too much or interesting contrast?</p>
+          <span class="inspo-tag">Worth discussing</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/0Rvp2fL.jpeg" alt="Darker tablescape" data-title="Darker tablescape" data-note="Richer tone — how does this read against your venue lighting?" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Darker tablescape</p>
+          <p class="inspo-caption-note">Richer tone — how does this read against your venue lighting?</p>
+          <span class="inspo-tag">For contrast</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inspo-category">
+    <p class="inspo-category-label">Chair Options</p>
+    <div class="inspo-grid">
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/kBraiXX.jpeg" alt="Ceremony chairs outdoor" data-title="Ceremony chair setup" data-note="Outdoor arrangement — note chair style and row spacing" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Ceremony chair setup</p>
+          <p class="inspo-caption-note">Outdoor arrangement — note chair style and row spacing</p>
+          <span class="inspo-tag">Ceremony ref</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/f9UmCa4.jpeg" alt="Ceremony chairs different style" data-title="Ceremony chairs — alt style" data-note="Different chair option for ceremony — how does it compare?" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Ceremony chairs — alt style</p>
+          <p class="inspo-caption-note">Different option — compare against the first setup</p>
+          <span class="inspo-tag">Ceremony ref</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/8BShAoJ.jpeg" alt="Wood chairs with seat cushions" data-title="Wood chairs with seat cushions" data-note="Could work — cushions add comfort, worth asking BPR about availability and cost" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Wood chairs with seat cushions</p>
+          <p class="inspo-caption-note">Could work — cushions add comfort, worth asking about availability and cost</p>
+          <span class="inspo-tag">Worth discussing</span>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-wrap" onclick="openLightbox(this)">
+          <img class="inspo-img" src="https://i.imgur.com/5YXqC3N.jpeg" alt="Metal chairs for comparison" data-title="Metal chairs — for comparison only" data-note="Not the direction we're going, but useful contrast to show what we want to avoid" />
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Metal chairs — for comparison</p>
+          <p class="inspo-caption-note">Not ideal, but useful contrast to clarify the direction we're avoiding</p>
+          <span class="inspo-tag">Not preferred</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="inspo-category">
+    <p class="inspo-category-label">Still To Add</p>
+    <div class="inspo-grid">
+      <div class="inspo-card">
+        <div class="inspo-img-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A0613A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Add image</span>
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Serveware reference</p>
+          <p class="inspo-caption-note">Bowl/platter style for family-style mains — add when ready</p>
+        </div>
+      </div>
+      <div class="inspo-card">
+        <div class="inspo-img-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#A0613A" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <span>Add image</span>
+        </div>
+        <div class="inspo-caption">
+          <p class="inspo-caption-title">Linen color / texture</p>
+          <p class="inspo-caption-note">Add a reference once you've decided on a color direction</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 01 ORDER -->
+<section class="section" id="order">
+  <p class="section-eyebrow">01 · What We Need</p>
+  <h2 class="section-title">The Full Order</h2>
+  <p class="section-sub">Layout TBD · ~12 tables · 75 guests + buffer</p>
+  <hr class="hairline">
+  <div class="order-grid">
+    <div class="order-card">
+      <p class="order-card-label">Furniture</p>
+      <ul>
+        <li>Bistro Chair Walnut <span>×85</span></li>
+        <li>8ft × 48in Table <span>×12</span></li>
+        <li>Tablecloth 156×108 <span>×12</span></li>
+      </ul>
+    </div>
+    <div class="order-card">
+      <p class="order-card-label">Tableware</p>
+      <ul>
+        <li>Dinner Plate <span>×85</span></li>
+        <li>Dinner Fork &amp; Knife <span>×85</span></li>
+        <li>Water Glass <span>×85</span></li>
+        <li>Dessert Plate &amp; Spoon <span>×85</span></li>
+        <li>Coffee Mug <span>×55</span></li>
+        <li>Sugar &amp; Creamer <span>×4–6</span></li>
+      </ul>
+    </div>
+    <div class="order-card">
+      <p class="order-card-label">Serveware</p>
+      <ul>
+        <li>Salad Bowls <span>×12</span></li>
+        <li>Bread Baskets <span>×12</span></li>
+        <li>Carbonara Bowls ⚠ <span>×12</span></li>
+        <li>Cucumber Bowls <span>×12</span></li>
+        <li>Steak Platters <span>×12</span></li>
+        <li>Branzino Platters <span>×12</span></li>
+        <li>Dessert Bar Vessels <span>×12–15</span></li>
+        <li>Serving Utensils <span>per dish</span></li>
+      </ul>
+    </div>
+  </div>
+  <p class="order-note">⚠ Carbonara vessel style still pending confirmation with STE Events. Table count (~12) and seating arrangement are still being finalized — confirm before placing the furniture order.</p>
+</section>
+
+<!-- 02 COST -->
+<section class="section" id="cost">
+  <p class="section-eyebrow">02 · Cost Expectations</p>
+  <h2 class="section-title">Estimated Range</h2>
+  <p class="section-sub">Benchmarked against comparable NYC rental vendors — BPR doesn't publish prices</p>
+  <hr class="hairline">
+  <div class="cost-hero">
+    <div class="cost-figure">
+      <p class="cost-figure-label">Best Case</p>
+      <p class="cost-figure-amount">$2,816</p>
+      <p class="cost-figure-note">If everything comes in at low estimates</p>
+    </div>
+    <div class="cost-divider"></div>
+    <div class="cost-figure">
+      <p class="cost-figure-label">High End</p>
+      <p class="cost-figure-amount high">$4,163</p>
+      <p class="cost-figure-note">Budget ceiling to plan around</p>
+    </div>
+  </div>
+  <div class="cost-col-heads"><span>Category</span><span>Low</span><span>High</span></div>
+  <div class="cost-rows">
+    <div class="cost-row"><span class="cost-row-label">Tableware (dinnerware + flatware + glassware)</span><span class="cost-row-lo">$489</span><span class="cost-row-hi">$642</span></div>
+    <div class="cost-row"><span class="cost-row-label">Furniture (chairs + tables + linens)</span><span class="cost-row-lo">$995</span><span class="cost-row-hi">$1,380</span></div>
+    <div class="cost-row"><span class="cost-row-label">Serveware — 1st Set (salad, rolls)</span><span class="cost-row-lo">$216</span><span class="cost-row-hi">$342</span></div>
+    <div class="cost-row"><span class="cost-row-label">Serveware — 2nd Set (mains)</span><span class="cost-row-lo">$522</span><span class="cost-row-hi">$738</span></div>
+    <div class="cost-row"><span class="cost-row-label">Dessert Bar Serveware</span><span class="cost-row-lo">$156</span><span class="cost-row-hi">$228</span></div>
+    <div class="cost-row"><span class="cost-row-label">Delivery &amp; Pickup</span><span class="cost-row-lo">$200</span><span class="cost-row-hi">$500</span></div>
+    <div class="cost-row"><span class="cost-row-label">Damage Waiver (~10%)</span><span class="cost-row-lo">$238</span><span class="cost-row-hi">$333</span></div>
+  </div>
+</section>
+
+<!-- 03 QUESTIONS -->
+<section class="section" id="questions">
+  <p class="section-eyebrow">03 · Questions to Ask</p>
+  <h2 class="section-title">At the Showroom</h2>
+  <p class="section-sub">Eight questions — and why each one matters</p>
+  <hr class="hairline">
+  <div class="q-list">
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Pricing</p><p class="q-text">Can we get a full itemized written quote today, or do we need to follow up with a sales rep?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Reviews say prices are never posted. You need this in writing before you can commit to anything.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Chairs</p><p class="q-text">What's the exact per-unit price difference between Bistro Walnut and Crossback Weathered Oak at 85 units?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">We've estimated $200–$400 savings with Bistro. Confirm the actual gap at volume before deciding.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Delivery</p><p class="q-text">What's the delivery fee for our venue? Is there a minimum order for free or discounted delivery?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Budgeted at $200–$500 — a wide range. Nailing this down tightens the total significantly.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Damage Waiver</p><p class="q-text">Is the ~10% damage waiver mandatory? What exactly does it cover — and what doesn't it cover?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Non-refundable and auto-added. Covers accidents, not lost items or intentional damage. Budget ~$238–$333.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Rental Period</p><p class="q-text">Our event is Saturday June 27. Is the rental window Fri–Mon? What does Sat + Sun counting as 1 day mean?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Standard is 3 days, but Sat+Sun = 1 day. Clarifies pickup, return, and whether extra days cost more.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Serveware</p><p class="q-text">What bowl and platter shapes do you have for family-style pasta mains? We need to confirm vessel depth for carbonara.</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Still an open question with our caterer. Don't finalize this order until depth is confirmed.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Linens</p><p class="q-text">Do you stock the 156×108 tablecloth for 8ft tables? What colors and fabric options are available?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Color selection is worth deciding in person — photos don't capture texture or scale.</p></div></div>
+    <div class="q-item"><div class="q-item-main"><p class="q-cat">Delivery Reliability</p><p class="q-text">If something is missing or damaged on delivery day, what's the remedy process? Who do we call?</p></div><div class="q-divider"></div><div class="q-why"><p class="q-why-label">Why ask?</p><p class="q-why-text">Reviews flag delivery as hit-or-miss. Know the contingency plan before you need it.</p></div></div>
+  </div>
+</section>
+
+<!-- 04 WATCH-OUTS -->
+<section class="section" id="watchouts">
+  <p class="section-eyebrow">04 · Watch-Outs</p>
+  <h2 class="section-title">Don't Get Blindsided</h2>
+  <p class="section-sub">Six things to know before you walk in</p>
+  <hr class="hairline">
+  <div class="wo-list">
+    <div class="wo-item"><p class="wo-title">No Published Prices — Ever</p><p class="wo-body">BPR posts nothing online. Staff will give relative guidance but won't commit to numbers without a sales rep. Multiple reviews flag this as a frustration. Push for a full itemized written quote before you leave — verbal estimates evaporate.</p></div>
+    <div class="wo-item"><p class="wo-title">The Damage Waiver Is Non-Negotiable</p><p class="wo-body">~10% of your order total, added automatically, non-refundable. Covers accidental breakage — broken plates, cracked glasses. Does not cover lost items or intentional damage. Budget ~$238–$333 on top of the subtotal.</p></div>
+    <div class="wo-item"><p class="wo-title">Delivery Reliability Is Mixed</p><p class="wo-body">Reviews flag delivery as the weakest part of the BPR experience. Items have arrived late or incomplete. Confirm: delivery window, venue address on file, who to call day-of, and what the remedy process looks like.</p></div>
+    <div class="wo-item"><p class="wo-title">Serveware Has an Unresolved Question</p><p class="wo-body">The vessel for Kimchi &amp; Uni Carbonara — bowl vs. platter — hasn't been confirmed with STE Events. The issue is depth: carbonara needs a vessel that holds liquid. Don't finalize the serveware order until the caterer signs off.</p></div>
+    <div class="wo-item"><p class="wo-title">Saturday + Sunday Count as One Rental Day</p><p class="wo-body">BPR's standard period is 3 days, but weekends count as one. For June 27, the likely window is Fri delivery → Mon return. Confirm this explicitly — exact dates affect logistics with your venue.</p></div>
+    <div class="wo-item"><p class="wo-title">Table Count Is Still TBD</p><p class="wo-body">Estimating 9–10 tables based on 75 guests at 8-person 8ft tables. Final count depends on venue floor plan. Don't place the furniture order until that's confirmed — tables and chairs are the most expensive line item.</p></div>
+  </div>
+</section>
+
+<!-- 05 SHOWROOM -->
+<section class="section" id="showroom">
+  <p class="section-eyebrow">05 · The Showroom Experience</p>
+  <h2 class="section-title">What to Expect</h2>
+  <p class="section-sub">How the visit works and how to use it wisely</p>
+  <hr class="hairline">
+  <div class="showroom-grid">
+    <div class="showroom-card"><p class="showroom-card-title">You'll Work With a Sales Rep</p><p class="showroom-card-body">The floor is consultative — someone walks you through the catalog. They'll give relative pricing but won't commit to numbers without paperwork. Ask to speak with a rep who can issue a formal written quote on the spot.</p></div>
+    <div class="showroom-card"><p class="showroom-card-title">You Can See &amp; Touch the Pieces</p><p class="showroom-card-body">This is the best reason to go in person. Compare the Bistro Walnut and Crossback Oak chairs side by side. Check serveware dimensions — bring the caterer's menu as a reference for vessel sizing.</p></div>
+    <div class="showroom-card"><p class="showroom-card-title">Nothing Gets Ordered Without Paperwork</p><p class="showroom-card-body">BPR won't ship anything without a signed contract and deposit. The visit is for scoping and quoting — you're not locked in until you sign. Use this trip to gather numbers, not to commit.</p></div>
+    <div class="showroom-card"><p class="showroom-card-title">Get Everything in Writing</p><p class="showroom-card-body">Before you leave: confirm you have a line-item quote with per-unit pricing, delivery fee, damage waiver amount, and rental period spelled out. Verbal quotes don't survive the gap between showroom and invoice.</p></div>
+    <div class="showroom-card"><p class="showroom-card-title">Linen Colors Are a Real Decision</p><p class="showroom-card-body">The 156×108 tablecloth comes in multiple colors and fabrics. Photos online don't capture texture or how it reads at table length. Bring your color direction — worth deciding in the room.</p></div>
+    <div class="showroom-card"><p class="showroom-card-title">Get a Named Contact Before You Leave</p><p class="showroom-card-body">Delivery inconsistency is the #1 complaint in reviews. Leave with a specific rep's name and direct number. "Call the main line" is not good enough for a June 27 wedding.</p></div>
+  </div>
+</section>
+
+<!-- 06 ACTION -->
+<section class="section" id="action">
+  <p class="section-eyebrow">06 · Action Plan</p>
+  <h2 class="section-title">Before &amp; After the Visit</h2>
+  <p class="section-sub">What to do before you go, and what to leave with</p>
+  <hr class="hairline">
+  <div class="action-cols">
+    <div class="action-col">
+      <p class="action-col-head left">Before You Go</p>
+      <div class="before-list">
+        <div class="before-item"><span class="before-num">1</span><span class="before-text">Confirm Kimchi Carbonara vessel depth with STE Events</span></div>
+        <div class="before-item"><span class="before-num">2</span><span class="before-text">Finalize venue floor plan to lock in table count</span></div>
+        <div class="before-item"><span class="before-num">3</span><span class="before-text">Decide: visit showroom now vs. call for a preliminary quote first</span></div>
+        <div class="before-item"><span class="before-num">4</span><span class="before-text">Bring the rental checklist printout to the showroom</span></div>
+      </div>
+    </div>
+    <div class="action-divider"></div>
+    <div class="action-col action-col-right">
+      <p class="action-col-head right">Leave With This</p>
+      <div class="after-list">
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Full itemized written quote (push hard for this)</span></div>
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Sales rep name and direct contact info</span></div>
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Confirmed chair pricing: Bistro vs. Crossback at 85 units</span></div>
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Delivery fee for your specific venue</span></div>
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Confirmed rental period for June 27</span></div>
+        <div class="after-item"><span class="after-dash">—</span><span class="after-text">Serveware photos / catalog for bowls &amp; platters</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p class="footer-name">Joanne &amp; Tim · June 27, 2026</p>
+  <p class="footer-meta">Broadway Party Rentals · 137 Grand St, 6th Floor, SoHo · 212.269.2666</p>
+</footer>
+
+<script>
+function openLightbox(wrap) {
+  const img = wrap.querySelector('img');
+  const title = img.dataset.title || img.alt;
+  const note = img.dataset.note || '';
+  document.getElementById('lightbox-img').src = img.src;
+  document.getElementById('lightbox-img').alt = img.alt;
+  document.getElementById('lightbox-caption').innerHTML = '<strong>' + title + '</strong>' + (note ? ' &mdash; ' + note : '');
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(e) {
+  if (e && e.target !== document.getElementById('lightbox') && !e.target.classList.contains('lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') { document.getElementById('lightbox').classList.remove('open'); document.body.style.overflow = ''; }
+});
+</script>
+</body>
+</html>
